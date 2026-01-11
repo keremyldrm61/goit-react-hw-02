@@ -6,14 +6,9 @@ import Notification from "../Notification/Notification.jsx";
 import styles from "./App.module.css";
 
 const App = () => {
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  });
 
   // Local Storage'e yüklemek için
-  useEffect(() => {
+  const getInitialFeedback = () => {
     const saved = localStorage.getItem('feedback');
     if (saved) {
       try {
@@ -24,13 +19,16 @@ const App = () => {
           parsed.neutral !== undefined &&
           parsed.bad !== undefined
         ) {
-          setFeedback(parsed);
+          return parsed;
         }
       } catch (e) {
         console.error("Failed to parse feedback from localStorage", e);
       }
     }
-  }, []);
+    return { good: 0, neutral: 0, bad: 0 };
+  };
+
+  const [feedback, setFeedback] = useState(getInitialFeedback);
 
   // State değiştiğinde localStorage'e kaydetmek için
   useEffect(() => {
