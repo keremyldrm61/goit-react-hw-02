@@ -24,7 +24,7 @@ const App = () => {
           parsed.neutral !== undefined &&
           parsed.bad !== undefined
         ) {
-          setFeedback(parsed);
+          return () => parsed;
         }
       } catch (e) {
         console.error("Failed to parse feedback from localStorage", e);
